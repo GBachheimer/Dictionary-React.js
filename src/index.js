@@ -2,24 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
-class Display extends React.Component {
-	render() {
-		return <p className = "mx-auto my-2 d-block fs-5">{this.props.message}</p>;
-	}
+function Display (props) {
+	return <p className = "mx-auto my-2 d-block fs-5">{props.message}</p>;
 }
 
-class Button extends React.Component {
-	render () {
-		return (
-			<button
-				type = "button"
-				className = "btn btn-outline-light m-1"
-				onClick = {this.props.toDo}
-			>
-				{this.props.name}
-			</button>
-		);
-	}
+function Button (props) {
+	return (
+		<button type = "button" className = "btn btn-outline-light m-1" onClick = {props.toDo}>
+			{props.name}
+		</button>
+	);
 }
 
 class Dictionary extends React.Component {
