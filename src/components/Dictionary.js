@@ -1,32 +1,61 @@
-import React from 'react';
-import AddWord from './Add';
-import SearchWord from './Search';
-import DeleteWord from './Delete';
-import DisplayAllWords from './DisplayAll';
+import React, {useState} from 'react';
+import Button from './Button';
+import InputField from "./InputField";
+import DisplayFeedback from "./DisplayFeedback";
 
-export default class Dictionary extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {value: "", message: "Enter a word: ", wordsList: new Set(), displayList: ""};
-		this.handleChange = this.handleChange.bind(this);
+export default function Dictionary() {
+	const [userInput, setUserInput] = useState("");
+	const [message, setMessage] = useState("Enter a word: ");
+	const [wordsList, setWordList] = useState(new Set());
+	
+	const handleEvent = (event) => {
+		setUserInput(event.target.value);
 	}
 	
-	handleChange(event) {
-		this.setState({value: event.target.value});
-	}
+	const addWord = () => {
+		var regex = /^[A-Za-z]+$/;
+		if (regex.test(userInput)) {
+			wordsList.add(userInput.toLowerCase());
+			setMessage("Your word " + userInput + " was added successfully.");
+		} else {
+			setMessage(userInput + " is not a word.");
+		}
+	};
 	
-	render() {
-		const name = ["Add", "Search", "Delete", "Display all"];
-		return (
-			<div className = "btn-dark badge position-absolute top-50 start-50 translate-middle text-center">
-				<p id = "message" className = "mx-auto my-2 d-block fs-5">{this.state.message}</p>
-				<input type = "text" className = "form-control-lg mx-auto my-2 d-block" value = {this.state.value} onChange = {this.handleChange} />
-				<AddWord name = {name[0]} value = {this.state.value} wordsList = {this.state.wordsList}  />
-				<SearchWord name = {name[1]} value = {this.state.value} wordsList = {this.state.wordsList} />
-				<DeleteWord name = {name[2]} value = {this.state.value} wordsList = {this.state.wordsList} />
-				<DisplayAllWords name = {name[3]} value = {this.state.value} wordsList = {this.state.wordsList} />
-				<p id = "list" className = "mx-auto my-2 d-block fs-5"></p>
-			</div>
-		);
-	}
+	const searchWord = () => {
+		if (wordsList.has(userInput.toLowerCase())) {
+			setMessage("This word exists in dictionary.");
+		} else {
+			setMessage("OOOPS! This word is not in this dictionary.");
+		}
+	};
+	
+	const deleteWord = () => {
+		if (wordsList.has(userInput.toLowerCase())) {
+			wordsList.delete(userInput.toLowerCase());
+			setMessage("Word: " + userInput + " was deleted successfully.");
+		} else {
+			setMessage("Word: " + userInput + " is not in your dictionary!");
+		}
+	};
+	
+	const displayAll = () => {
+		let text = "";
+		for (const x of wordsList.values()) {
+			text += x + " ";
+		}
+		setMessage(text);
+	};
+	
+	return (
+		<div className = "btn-dark badge position-absolute top-50 start-50 translate-middle text-center">
+			<DisplayFeedback message = {message} />
+			<InputField userInput = {userInput} onChange = {handleEvent} />
+			<Button name = "Add" toDo = {addWord}  />
+			<Button name = "Search" toDo = {searchWord} />
+			<Button name = "Delete" toDo = {deleteWord} />
+			<Button name = "Display all" toDo = {displayAll} />
+		</div>
+			
+	);
 }
