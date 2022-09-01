@@ -1,0 +1,10 @@
+.wordsStyle {
+    display: block;
+    margin-left: 5px;
+    margin-top: 10px;
+    position: relative;
+}
+
+.font-style {
+    font-size: 1vw;
+}
