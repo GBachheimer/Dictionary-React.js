@@ -1,8 +1,18 @@
 import "./DisplayAll.css";
+import { useState } from "react";
+import Button from "./Button";
+
 export default function DisplayAll(props) {
+    const [test, setTest] = useState([]);
+
+    const updateList = () => {
+        setTest(Array.from(props.wordsList));
+    };
+
     return (
-        <div className = "wordsStyle font-style">
-            {Array.from(props.wordsList).map((value, key) => {return <p id = {key}>{value}</p>})}
+        <div className = "font-style">
+            <Button name = "Show All" toDo = {updateList}></Button>
+            {test.map((value, key) => {return <p id = {key} className = "listStyle">{value}</p>})}
         </div>
     );
 }

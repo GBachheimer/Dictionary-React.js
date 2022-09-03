@@ -1,4 +1,3 @@
-import React, {useState, setState} from 'react';
 import "./DisplayAll.css";
 
 export default function DisplayFeedback(props) {
